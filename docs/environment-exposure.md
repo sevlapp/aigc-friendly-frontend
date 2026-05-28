@@ -51,7 +51,7 @@
 - `labs` 必须可快速撤回
 - `labs` 到期后必须复查，并给出删除、延期或迁入 `stable` 的结论
 
-当前仓库的 `/labs/prompt-lab` 是 dev/test 示例，不进入 prod。
+当前仓库的 `/labs/game-2048` 是 dev/test 示例，不进入 prod。
 
 ## Sandbox
 

@@ -17,12 +17,12 @@ const STABLE_NAVIGATION_ITEMS: NavigationItem[] = [
 
 const LAB_NAVIGATION_ITEMS: NavigationItem[] = [
   {
-    description: '受控开放的提示词迭代实验。',
-    id: 'prompt-lab',
+    description: '受控开放的 2048 交互实验。',
+    id: 'game-2048-lab',
     kind: 'labs',
     label: 'Lab',
-    path: '/labs/prompt-lab',
-    tags: ['lab', 'prompt', 'experiment', '提示', '实验'],
+    path: '/labs/game-2048',
+    tags: ['lab', '2048', 'game', 'experiment', '游戏', '实验'],
   },
 ];
 

@@ -108,8 +108,8 @@ export const demoLabMeta = {
 
 ## 当前落地示例
 
-- `/labs/prompt-lab`
-  - 用于受控验证 prompt 工作流与 AI 生成体验
+- `/labs/game-2048`
+  - 用于受控验证一个本地 2048 交互实验
   - 保持轻量实验形态，不承担正式业务入口职责
   - 当前仅 `dev / test` 暴露，不进入 `prod`
 

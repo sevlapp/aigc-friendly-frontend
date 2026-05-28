@@ -13,18 +13,18 @@ const candidates = [
     tags: ['home', 'aigc', '工作台'],
   },
   {
-    description: '提示词实验页面',
-    id: 'prompt-lab',
-    label: '提示实验',
-    path: '/labs/prompt-lab',
-    tags: ['prompt', 'lab', '提示', '实验'],
+    description: '2048 交互实验页面',
+    id: 'game-2048-lab',
+    label: '2048 Lab',
+    path: '/labs/game-2048',
+    tags: ['2048', 'game', 'lab', '游戏', '实验'],
   },
 ];
 
 describe('resolveLocalAssistantQuery', () => {
   it('returns matching route suggestions', () => {
-    const reply = resolveLocalAssistantQuery('提示实验', candidates);
+    const reply = resolveLocalAssistantQuery('2048', candidates);
 
-    expect(reply.suggestions[0]?.id).toBe('prompt-lab');
+    expect(reply.suggestions[0]?.id).toBe('game-2048-lab');
   });
 });

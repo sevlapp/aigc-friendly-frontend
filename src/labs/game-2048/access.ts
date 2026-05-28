@@ -1,7 +1,7 @@
-// src/labs/prompt-lab/access.ts
+// src/labs/game-2048/access.ts
 
 import type { AppEnv } from '@/shared/env';
 
-export function canAccessPromptLab(env: AppEnv) {
+export function canAccessGame2048Lab(env: AppEnv) {
   return env === 'dev' || env === 'test';
 }

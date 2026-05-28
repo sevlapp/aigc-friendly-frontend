@@ -17,7 +17,7 @@ import { Error403, Error404, Error500, ErrorRouteCrash } from '@/features/error-
 
 import { getAppEnv } from '@/shared/env';
 
-import { canAccessPromptLab, PromptLabPage } from '@/labs/prompt-lab';
+import { canAccessGame2048Lab, Game2048LabPage } from '@/labs/game-2048';
 import { canAccessSandboxPlayground, SandboxPlaygroundPage } from '@/sandbox/playground';
 
 function RouteErrorPage() {
@@ -48,8 +48,8 @@ function RouteErrorBoundary() {
   );
 }
 
-function promptLabLoader() {
-  if (!canAccessPromptLab(getAppEnv())) {
+function game2048LabLoader() {
+  if (!canAccessGame2048Lab(getAppEnv())) {
     throw redirect('/');
   }
 
@@ -80,9 +80,9 @@ const router = createBrowserRouter([
         path: 'error-preview',
       },
       {
-        element: <PromptLabPage />,
-        loader: promptLabLoader,
-        path: 'labs/prompt-lab',
+        element: <Game2048LabPage />,
+        loader: game2048LabLoader,
+        path: 'labs/game-2048',
       },
       {
         element: <SandboxPlaygroundPage />,
