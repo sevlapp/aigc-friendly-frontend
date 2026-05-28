@@ -3,22 +3,20 @@
 import { Button, Card, Descriptions, Tag } from 'antd';
 import { useNavigate } from 'react-router';
 
-import { LOCAL_ASSISTANT_PROMPTS } from '@/features/local-assistant';
-
 import { getAppEnv, getGraphQLEndpoint, getHealthEndpoint } from '@/shared/env';
 
 const workflowCards = [
   {
-    description: 'Stable app shell with router, navigation truth, providers, and sidecar slot.',
-    title: 'App Shell',
+    description: '路由、导航事实源、全局 Provider 和 AI 侧栏入口都已经拆开。',
+    title: '应用壳层',
   },
   {
-    description: 'Feature work starts in the smallest owner and uses public barrels.',
-    title: 'Layered Ownership',
+    description: '新增能力先找最小归属模块，跨模块引用走公开出口。',
+    title: '分层所有权',
   },
   {
-    description: 'A lab and sandbox are included to show safe AI-generated experimentation.',
-    title: 'Experiment Flow',
+    description: '实验区与沙盒用来承接可控实验和一次性试验，避免污染正式区。',
+    title: '实验路径',
   },
 ];
 
@@ -30,14 +28,14 @@ export function HomePage() {
     <div className="page-stack">
       <div className="page-header">
         <div>
-          <h1 className="page-title">AIGC Workbench</h1>
+          <h1 className="page-title">AIGC 工作台</h1>
           <p className="page-description">
-            A compact frontend baseline for AI-assisted product work, with the app shell, sidecar,
-            route catalog, GraphQL ingress, and experiment lanes already separated.
+            一个小而清晰的 AI 友好前端基线。应用壳层、AI 侧栏、路由目录、GraphQL
+            入口和实验通道已经分离，方便后续稳定扩展。
           </p>
         </div>
-        <Button type="primary" onClick={() => navigate('/blueprint')}>
-          View blueprint
+        <Button type="primary" onClick={() => navigate('/project-structure')}>
+          查看项目结构
         </Button>
       </div>
 
@@ -48,7 +46,7 @@ export function HomePage() {
           items={[
             {
               key: 'env',
-              label: 'App env',
+              label: '应用环境',
               children: <Tag>{getAppEnv()}</Tag>,
             },
             {
@@ -58,37 +56,20 @@ export function HomePage() {
             },
             {
               key: 'health',
-              label: 'Health',
-              children: healthEndpoint || 'not configured',
+              label: '健康检查',
+              children: healthEndpoint || '未配置',
             },
           ]}
           size="small"
         />
       </div>
 
-      <section className="card-grid" aria-label="Workflow slices">
+      <section className="card-grid" aria-label="工作流切片">
         {workflowCards.map((card) => (
-          <Card key={card.title} title={card.title}>
+          <Card hoverable key={card.title} title={card.title}>
             <p className="m-0 text-text-secondary">{card.description}</p>
           </Card>
         ))}
-      </section>
-
-      <section className="surface-panel" aria-label="Starter prompt inventory">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <h2 className="m-0 text-lg font-semibold">Starter Prompts</h2>
-          <span className="text-sm text-text-tertiary">
-            {LOCAL_ASSISTANT_PROMPTS.length} prompts
-          </span>
-        </div>
-        <div className="card-grid">
-          {LOCAL_ASSISTANT_PROMPTS.map((prompt) => (
-            <div className="route-suggestion" key={prompt.key}>
-              <div className="route-suggestion-title">{prompt.label}</div>
-              <div className="route-suggestion-description">{prompt.prompt}</div>
-            </div>
-          ))}
-        </div>
       </section>
     </div>
   );

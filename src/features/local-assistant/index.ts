@@ -6,30 +6,6 @@ import type {
   AssistantRouteSuggestion,
 } from '@/entities/assistant-session';
 
-export type StarterPrompt = {
-  key: string;
-  label: string;
-  prompt: string;
-};
-
-export const LOCAL_ASSISTANT_PROMPTS: StarterPrompt[] = [
-  {
-    key: 'open-workbench',
-    label: 'Open workbench',
-    prompt: 'Show me the main AIGC workbench',
-  },
-  {
-    key: 'review-structure',
-    label: 'Review structure',
-    prompt: 'Where should a new AI feature be placed?',
-  },
-  {
-    key: 'try-lab',
-    label: 'Try prompt lab',
-    prompt: 'Open the prompt lab experiment',
-  },
-];
-
 function normalizeText(value: string) {
   return value.trim().toLowerCase();
 }
@@ -76,13 +52,13 @@ export function resolveLocalAssistantQuery(
 
   if (matchedSuggestions.length > 0) {
     return {
-      content: 'I found the closest local routes for that intent.',
+      content: '我找到了最接近这个意图的本地页面。',
       suggestions: matchedSuggestions,
     };
   }
 
   return {
-    content: 'No exact local match yet. Start from the workbench or review the structure map.',
+    content: '还没有精确匹配的本地页面，可以先回到工作台继续定位。',
     suggestions: rankedCandidates.slice(0, 2).map((item) => toSuggestion(item.candidate)),
   };
 }

@@ -51,6 +51,7 @@ body {
 .app-header {
   align-items: center;
   background: color-mix(in srgb, var(--ant-color-bg-container) 94%, transparent);
+  backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--ant-color-border-secondary);
   display: flex;
   gap: 16px;
@@ -79,10 +80,16 @@ body {
 }
 
 .app-nav {
+  align-items: center;
+  background: var(--ant-color-fill-tertiary);
+  border: 1px solid var(--ant-color-border-secondary);
+  border-radius: calc(var(--ant-border-radius-lg) + 2px);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ant-color-bg-container) 70%, transparent);
   display: flex;
-  gap: 6px;
+  gap: 2px;
   min-width: 0;
   overflow-x: auto;
+  padding: 4px;
 }
 
 .app-header-actions {
@@ -93,18 +100,34 @@ body {
 }
 
 .app-nav-link {
+  align-items: center;
+  border: 1px solid transparent;
   border-radius: var(--ant-border-radius);
   color: var(--ant-color-text-secondary);
+  display: inline-flex;
   font-size: 14px;
-  padding: 8px 10px;
+  font-weight: 600;
+  min-height: 34px;
+  padding: 0 14px;
   text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    color 150ms ease;
   white-space: nowrap;
 }
 
-.app-nav-link:hover,
-.app-nav-link-active {
+.app-nav-link:hover {
   background: var(--ant-color-fill-secondary);
   color: var(--ant-color-text);
+}
+
+.app-nav-link-active {
+  background: var(--ant-color-bg-container);
+  border-color: color-mix(in srgb, var(--ant-color-primary) 22%, var(--ant-color-border));
+  box-shadow: var(--ant-box-shadow-tertiary);
+  color: var(--ant-color-primary);
 }
 
 .app-main {
@@ -238,6 +261,14 @@ body {
   border: 1px solid var(--ant-color-border-secondary);
   border-radius: var(--ant-border-radius);
   padding: 10px;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.route-suggestion:hover {
+  background: var(--ant-color-fill-secondary);
+  border-color: var(--ant-color-border);
 }
 
 .route-suggestion-title {
@@ -262,7 +293,14 @@ body {
 
   .app-nav {
     max-width: 100%;
+    padding: 3px;
     width: 100%;
+  }
+
+  .app-nav-link {
+    justify-content: center;
+    min-height: 32px;
+    padding: 0 12px;
   }
 
   .app-header-actions {

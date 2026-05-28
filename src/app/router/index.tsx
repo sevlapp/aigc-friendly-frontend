@@ -11,8 +11,8 @@ import {
 
 import { AppLayout } from '@/app/layout';
 
-import { BlueprintPage } from '@/pages/blueprint';
 import { HomePage } from '@/pages/home';
+import { ProjectStructurePage } from '@/pages/project-structure';
 
 import { getAppEnv } from '@/shared/env';
 import { sanitizeInternalPath } from '@/shared/navigation';
@@ -28,7 +28,7 @@ function RouteErrorBoundary() {
       <Result
         extra={
           <Button href={sanitizeInternalPath('/')} type="primary">
-            Back to workbench
+            返回工作台
           </Button>
         }
         status={error.status === 404 ? '404' : 'warning'}
@@ -40,7 +40,7 @@ function RouteErrorBoundary() {
 
   return (
     <Alert
-      description={error instanceof Error ? error.message : 'Unexpected route failure.'}
+      description={error instanceof Error ? error.message : '发生未知路由错误。'}
       showIcon
       type="error"
     />
@@ -71,8 +71,8 @@ const router = createBrowserRouter([
         index: true,
       },
       {
-        element: <BlueprintPage />,
-        path: 'blueprint',
+        element: <ProjectStructurePage />,
+        path: 'project-structure',
       },
       {
         element: <PromptLabPage />,
@@ -89,11 +89,11 @@ const router = createBrowserRouter([
           <Result
             extra={
               <Button href={sanitizeInternalPath('/')} type="primary">
-                Back to workbench
+                返回工作台
               </Button>
             }
             status="404"
-            title="Route not found"
+            title="页面不存在"
           />
         ),
         path: '*',

@@ -6,24 +6,24 @@ import { resolveLocalAssistantQuery } from './index';
 
 const candidates = [
   {
-    description: 'Main AIGC workbench',
+    description: 'AIGC 主工作台',
     id: 'home',
-    label: 'Workbench',
+    label: '工作台',
     path: '/',
-    tags: ['home', 'aigc'],
+    tags: ['home', 'aigc', '工作台'],
   },
   {
-    description: 'Prompt experiment lab',
+    description: '提示词实验页面',
     id: 'prompt-lab',
-    label: 'Prompt Lab',
+    label: '提示实验',
     path: '/labs/prompt-lab',
-    tags: ['prompt', 'lab'],
+    tags: ['prompt', 'lab', '提示', '实验'],
   },
 ];
 
 describe('resolveLocalAssistantQuery', () => {
   it('returns matching route suggestions', () => {
-    const reply = resolveLocalAssistantQuery('prompt lab', candidates);
+    const reply = resolveLocalAssistantQuery('提示实验', candidates);
 
     expect(reply.suggestions[0]?.id).toBe('prompt-lab');
   });

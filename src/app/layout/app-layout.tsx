@@ -32,7 +32,6 @@ export function AppLayout() {
     () => navigationItems.map((item) => toRouteCandidate(item)),
     [navigationItems],
   );
-
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -40,11 +39,11 @@ export function AppLayout() {
           <img alt="" className="brand-logo" src="/logo.svg" />
           <div className="min-w-0">
             <div className="brand-title">AIGC Friendly Frontend</div>
-            <div className="brand-subtitle">Minimal React architecture example</div>
+            <div className="brand-subtitle">AI 友好的 React 前端基线</div>
           </div>
         </div>
 
-        <nav aria-label="Primary navigation" className="app-nav">
+        <nav aria-label="主导航" className="app-nav">
           {navigationItems.map((item) => (
             <NavLink
               className={({ isActive }) =>
@@ -71,7 +70,7 @@ export function AppLayout() {
             value={fontScale}
           />
           <Button onClick={() => setIsDark((previousValue) => !previousValue)}>
-            {isDark ? 'Light' : 'Dark'}
+            {isDark ? '浅色' : '深色'}
           </Button>
           <Button type="primary" onClick={() => setIsSidecarOpen(true)}>
             AI

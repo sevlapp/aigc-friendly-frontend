@@ -1,10 +1,10 @@
 // src/widgets/aigc-sidecar/index.tsx
 
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Bubble, Prompts, Sender } from '@ant-design/x';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Bubble, Sender } from '@ant-design/x';
 import { Button, Tag } from 'antd';
 
-import { LOCAL_ASSISTANT_PROMPTS, resolveLocalAssistantQuery } from '@/features/local-assistant';
+import { resolveLocalAssistantQuery } from '@/features/local-assistant';
 
 import type { AssistantMessage, AssistantRouteCandidate } from '@/entities/assistant-session';
 
@@ -27,21 +27,12 @@ export function AigcSidecar({ onClose, onNavigate, open, routeCandidates }: Aigc
   const [draft, setDraft] = useState('');
   const [messages, setMessages] = useState<RenderedMessage[]>([
     {
-      content: 'Tell me what you want to build or where you want to go.',
+      content: '告诉我你想构建什么，或想打开哪个页面。',
       id: 'assistant-welcome',
       role: 'assistant',
     },
   ]);
   const senderRef = useRef<HTMLDivElement | null>(null);
-  const promptItems = useMemo(
-    () =>
-      LOCAL_ASSISTANT_PROMPTS.map((prompt) => ({
-        description: prompt.prompt,
-        key: prompt.key,
-        label: prompt.label,
-      })),
-    [],
-  );
 
   useEffect(() => {
     if (!open) {
@@ -61,31 +52,34 @@ export function AigcSidecar({ onClose, onNavigate, open, routeCandidates }: Aigc
     };
   }, [onClose, open]);
 
-  function submitPrompt(nextPrompt: string) {
-    const normalizedPrompt = nextPrompt.trim();
+  const submitPrompt = useCallback(
+    (nextPrompt: string) => {
+      const normalizedPrompt = nextPrompt.trim();
 
-    if (!normalizedPrompt) {
-      return;
-    }
+      if (!normalizedPrompt) {
+        return;
+      }
 
-    const reply = resolveLocalAssistantQuery(normalizedPrompt, routeCandidates);
+      const reply = resolveLocalAssistantQuery(normalizedPrompt, routeCandidates);
 
-    setMessages((previousMessages) => [
-      ...previousMessages,
-      {
-        content: normalizedPrompt,
-        id: createMessageId(),
-        role: 'user',
-      },
-      {
-        content: reply.content,
-        id: createMessageId(),
-        role: 'assistant',
-        suggestions: reply.suggestions,
-      },
-    ]);
-    setDraft('');
-  }
+      setMessages((previousMessages) => [
+        ...previousMessages,
+        {
+          content: normalizedPrompt,
+          id: createMessageId(),
+          role: 'user',
+        },
+        {
+          content: reply.content,
+          id: createMessageId(),
+          role: 'assistant',
+          suggestions: reply.suggestions,
+        },
+      ]);
+      setDraft('');
+    },
+    [routeCandidates],
+  );
 
   if (!open) {
     return null;
@@ -93,29 +87,16 @@ export function AigcSidecar({ onClose, onNavigate, open, routeCandidates }: Aigc
 
   return (
     <div className="aigc-sidecar-backdrop">
-      <aside aria-label="AI sidecar" className="aigc-sidecar">
+      <aside aria-label="AI 助手侧栏" className="aigc-sidecar">
         <div className="aigc-sidecar-header">
           <div className="min-w-0">
-            <div className="brand-title">AI Sidecar</div>
-            <div className="brand-subtitle">Local route and prompt companion</div>
+            <div className="brand-title">AI 助手</div>
+            <div className="brand-subtitle">本地路由与提示协作</div>
           </div>
-          <Button onClick={onClose}>Close</Button>
+          <Button onClick={onClose}>关闭</Button>
         </div>
 
         <div className="aigc-sidecar-body">
-          <Prompts
-            items={promptItems}
-            onItemClick={({ data }) => {
-              const prompt = LOCAL_ASSISTANT_PROMPTS.find((item) => item.key === data.key);
-
-              if (prompt) {
-                submitPrompt(prompt.prompt);
-              }
-            }}
-            title="Starter prompts"
-            wrap
-          />
-
           <div className="aigc-sidecar-scroll">
             {messages.map((message) => (
               <div
@@ -148,7 +129,7 @@ export function AigcSidecar({ onClose, onNavigate, open, routeCandidates }: Aigc
                               onNavigate(suggestion.path);
                             }}
                           >
-                            Open
+                            打开
                           </Button>
                         </div>
                       </div>
@@ -160,15 +141,15 @@ export function AigcSidecar({ onClose, onNavigate, open, routeCandidates }: Aigc
           </div>
 
           <div className="metadata-row">
-            <Tag>local</Tag>
-            <span>{routeCandidates.length} routes indexed</span>
+            <Tag>本地</Tag>
+            <span>已索引 {routeCandidates.length} 条路由</span>
           </div>
 
           <div className="aigc-sidecar-sender" ref={senderRef}>
             <Sender
               onChange={(value) => setDraft(value)}
               onSubmit={submitPrompt}
-              placeholder="Describe a route or frontend task"
+              placeholder="描述一个页面、路由或前端任务"
               value={draft}
             />
           </div>

@@ -6,7 +6,7 @@ import { Alert, Card, Input, Space, Tag } from 'antd';
 import { promptLabMeta } from './meta';
 
 export function PromptLabPage() {
-  const [prompt, setPrompt] = useState('Draft a route plan for a new AI feature.');
+  const [prompt, setPrompt] = useState('为一个新的 AI 功能草拟路由落点方案。');
 
   return (
     <div className="page-stack">
@@ -16,14 +16,14 @@ export function PromptLabPage() {
           <p className="page-description">{promptLabMeta.description}</p>
         </div>
         <Space>
-          <Tag>labs</Tag>
+          <Tag>实验区</Tag>
           <Tag>dev/test</Tag>
         </Space>
       </div>
 
-      <Alert message="This lab is intentionally local and access-gated." showIcon type="info" />
+      <Alert message="这个实验保持本地化，并通过环境暴露规则受控开放。" showIcon type="info" />
 
-      <Card title="Prompt Draft">
+      <Card title="提示草稿">
         <Input.TextArea
           autoSize={{ minRows: 5, maxRows: 8 }}
           onChange={(event) => setPrompt(event.target.value)}

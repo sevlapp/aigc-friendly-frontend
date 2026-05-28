@@ -6,42 +6,34 @@ import type { NavigationItem } from './types';
 
 const STABLE_NAVIGATION_ITEMS: NavigationItem[] = [
   {
-    description: 'The main AI-assisted frontend workbench.',
+    description: '面向 AI 辅助开发的主工作台。',
     id: 'home',
     kind: 'stable',
-    label: 'Workbench',
+    label: '工作台',
     path: '/',
-    tags: ['home', 'aigc', 'assistant', 'dashboard'],
-  },
-  {
-    description: 'A compact map of layers, ownership, and promotion flow.',
-    id: 'blueprint',
-    kind: 'stable',
-    label: 'Blueprint',
-    path: '/blueprint',
-    tags: ['architecture', 'layers', 'rules', 'structure'],
+    tags: ['home', 'workbench', 'aigc', 'assistant', 'dashboard', '工作台', '助手'],
   },
 ];
 
 const LAB_NAVIGATION_ITEMS: NavigationItem[] = [
   {
-    description: 'A gated prompt iteration experiment.',
+    description: '受控开放的提示词迭代实验。',
     id: 'prompt-lab',
     kind: 'labs',
-    label: 'Prompt Lab',
+    label: '提示实验',
     path: '/labs/prompt-lab',
-    tags: ['lab', 'prompt', 'experiment'],
+    tags: ['lab', 'prompt', 'experiment', '提示', '实验'],
   },
 ];
 
 const SANDBOX_NAVIGATION_ITEMS: NavigationItem[] = [
   {
-    description: 'A dev-only playground for throwaway UI trials.',
+    description: '用于一次性交互验证的开发试验场。',
     id: 'sandbox-playground',
     kind: 'sandbox',
-    label: 'Sandbox',
+    label: '沙盒',
     path: '/sandbox/playground',
-    tags: ['sandbox', 'prototype', 'playground'],
+    tags: ['sandbox', 'prototype', 'playground', '沙盒', '原型'],
   },
 ];
 
