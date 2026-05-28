@@ -120,24 +120,28 @@ export function AppLayout({ children }: AppLayoutProps = {}) {
 
         <div className="app-header-actions">
           <div className="app-appearance-controls">
-            <Segmented
-              onChange={(value) => {
-                if (value === 'compact' || value === 'standard' || value === 'comfortable') {
-                  setFontScale(value);
-                }
-              }}
-              options={FONT_SCALE_OPTIONS}
-              size="small"
-              value={fontScale}
-            />
-            <Tooltip title={isDark ? '切换浅色模式' : '切换深色模式'}>
-              <Button
-                aria-label={isDark ? '切换浅色模式' : '切换深色模式'}
-                icon={isDark ? <SunOutlined /> : <MoonOutlined />}
-                shape="circle"
-                type="text"
-                onClick={() => setIsDark((previousValue) => !previousValue)}
+            <div className="app-font-scale-control">
+              <Segmented
+                onChange={(value) => {
+                  if (value === 'compact' || value === 'standard' || value === 'comfortable') {
+                    setFontScale(value);
+                  }
+                }}
+                options={FONT_SCALE_OPTIONS}
+                size="small"
+                value={fontScale}
               />
+            </div>
+            <Tooltip title={isDark ? '切换浅色模式' : '切换深色模式'}>
+              <span className="app-color-scheme-control">
+                <Button
+                  aria-label={isDark ? '切换浅色模式' : '切换深色模式'}
+                  icon={isDark ? <SunOutlined /> : <MoonOutlined />}
+                  shape="circle"
+                  type="text"
+                  onClick={() => setIsDark((previousValue) => !previousValue)}
+                />
+              </span>
             </Tooltip>
           </div>
         </div>
