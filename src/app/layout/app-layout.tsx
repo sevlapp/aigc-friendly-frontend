@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { Button, Segmented } from 'antd';
+import type { ReactNode } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router';
 
 import { getNavigationItems } from '@/app/navigation';
@@ -23,7 +24,11 @@ function toRouteCandidate(
   };
 }
 
-export function AppLayout() {
+type AppLayoutProps = {
+  children?: ReactNode;
+};
+
+export function AppLayout({ children }: AppLayoutProps = {}) {
   const [isSidecarOpen, setIsSidecarOpen] = useState(false);
   const { fontScale, isDark, setFontScale, setIsDark } = useTheme();
   const navigate = useNavigate();
@@ -78,9 +83,7 @@ export function AppLayout() {
         </div>
       </header>
 
-      <main className="app-main">
-        <Outlet />
-      </main>
+      <main className="app-main">{children ?? <Outlet />}</main>
 
       <AigcSidecar
         onClose={() => setIsSidecarOpen(false)}

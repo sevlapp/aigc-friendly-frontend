@@ -37,6 +37,17 @@ const SANDBOX_NAVIGATION_ITEMS: NavigationItem[] = [
   },
 ];
 
+const SUPPORT_NAVIGATION_ITEMS: NavigationItem[] = [
+  {
+    description: '预览通用路由和运行时错误反馈。',
+    id: 'error-preview',
+    kind: 'stable',
+    label: '错误页',
+    path: '/error-preview',
+    tags: ['error', 'feedback', '404', '500', 'route', '错误页', '异常反馈'],
+  },
+];
+
 function canExposeLabs(env: AppEnv) {
   return env === 'dev' || env === 'test';
 }
@@ -50,5 +61,6 @@ export function getNavigationItems(env = getAppEnv()): NavigationItem[] {
     ...STABLE_NAVIGATION_ITEMS,
     ...(canExposeLabs(env) ? LAB_NAVIGATION_ITEMS : []),
     ...(canExposeSandbox(env) ? SANDBOX_NAVIGATION_ITEMS : []),
+    ...SUPPORT_NAVIGATION_ITEMS,
   ];
 }

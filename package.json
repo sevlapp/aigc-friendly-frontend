@@ -17,6 +17,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.2.5",
     "@ant-design/x": "^2.4.0",
     "@apollo/client": "^4.1.6",
     "antd": "^6.3.4",

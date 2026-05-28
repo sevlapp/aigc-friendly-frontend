@@ -1,6 +1,5 @@
 // src/app/router/index.tsx
 
-import { Alert, Button, Result } from 'antd';
 import {
   createBrowserRouter,
   isRouteErrorResponse,
@@ -11,39 +10,41 @@ import {
 
 import { AppLayout } from '@/app/layout';
 
+import { ErrorPreviewPage } from '@/pages/error-preview';
 import { HomePage } from '@/pages/home';
 import { ProjectStructurePage } from '@/pages/project-structure';
+import { Error403, Error404, Error500, ErrorRouteCrash } from '@/features/error-feedback';
 
 import { getAppEnv } from '@/shared/env';
-import { sanitizeInternalPath } from '@/shared/navigation';
 
 import { canAccessPromptLab, PromptLabPage } from '@/labs/prompt-lab';
 import { canAccessSandboxPlayground, SandboxPlaygroundPage } from '@/sandbox/playground';
 
-function RouteErrorBoundary() {
+function RouteErrorPage() {
   const error = useRouteError();
 
   if (isRouteErrorResponse(error)) {
-    return (
-      <Result
-        extra={
-          <Button href={sanitizeInternalPath('/')} type="primary">
-            返回工作台
-          </Button>
-        }
-        status={error.status === 404 ? '404' : 'warning'}
-        subTitle={error.statusText}
-        title={error.status}
-      />
-    );
+    if (error.status === 403) {
+      return <Error403 />;
+    }
+
+    if (error.status === 404) {
+      return <Error404 />;
+    }
+
+    if (error.status >= 500) {
+      return <Error500 />;
+    }
   }
 
+  return <ErrorRouteCrash />;
+}
+
+function RouteErrorBoundary() {
   return (
-    <Alert
-      description={error instanceof Error ? error.message : '发生未知路由错误。'}
-      showIcon
-      type="error"
-    />
+    <AppLayout>
+      <RouteErrorPage />
+    </AppLayout>
   );
 }
 
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
         path: 'project-structure',
       },
       {
+        element: <ErrorPreviewPage />,
+        path: 'error-preview',
+      },
+      {
         element: <PromptLabPage />,
         loader: promptLabLoader,
         path: 'labs/prompt-lab',
@@ -85,17 +90,7 @@ const router = createBrowserRouter([
         path: 'sandbox/playground',
       },
       {
-        element: (
-          <Result
-            extra={
-              <Button href={sanitizeInternalPath('/')} type="primary">
-                返回工作台
-              </Button>
-            }
-            status="404"
-            title="页面不存在"
-          />
-        ),
+        element: <Error404 />,
         path: '*',
       },
     ],
