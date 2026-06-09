@@ -8,6 +8,8 @@ import {
   useRouteError,
 } from 'react-router';
 
+
+import TestConnection from '@/pages/TestConnection';
 import { AppLayout } from '@/app/layout';
 
 import { ErrorPreviewPage } from '@/pages/error-preview';
@@ -67,6 +69,10 @@ function sandboxPlaygroundLoader() {
 const router = createBrowserRouter([
   {
     children: [
+	{
+	  path: '/test-connection',
+	  element: <TestConnection />,
+	},
       {
         element: <HomePage />,
         index: true,
