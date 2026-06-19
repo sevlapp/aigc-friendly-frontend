@@ -19,6 +19,8 @@ import { Error403, Error404, Error500, ErrorRouteCrash } from '@/features/error-
 
 import { BlogHomePage } from '@/features/blog/pages/BlogHomePage';
 import { PostDetailPage } from '@/features/blog/pages/PostDetailPage';
+import { CategoryPage } from '@/features/blog/pages/CategoryPage';
+import { TagPage } from '@/features/blog/pages/TagPage';
 
 import { getAppEnv } from '@/shared/env';
 
@@ -101,6 +103,14 @@ const router = createBrowserRouter([
       {
         element: <BlogHomePage />,
         path: 'blog',
+      },
+      {
+        element: <CategoryPage />,
+        path: 'blog/category/:slug',
+      },
+      {
+        element: <TagPage />,
+        path: 'blog/tag/:slug',
       },
       {
         element: <PostDetailPage />,

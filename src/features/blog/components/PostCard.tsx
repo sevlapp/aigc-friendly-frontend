@@ -42,7 +42,14 @@ export function PostCard({ post }: PostCardProps) {
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', marginBottom: 12 }}>
         {post.category && (
-          <span className="flex items-center gap-2 text-gray-500 text-sm">
+          <span 
+            className="flex items-center gap-2 text-gray-500 text-sm"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/blog/category/${post.category?.slug}`);
+            }}
+            style={{ cursor: 'pointer', color: '#1890ff' }}
+          >
             <FolderOutlined />
             <Text>{post.category.name}</Text>
           </span>
@@ -56,7 +63,17 @@ export function PostCard({ post }: PostCardProps) {
       {post.tags.length > 0 && (
         <div>
           {post.tags.map((tag) => (
-            <Tag key={tag.id} color="blue">{tag.name}</Tag>
+            <Tag 
+              key={tag.id} 
+              color="blue"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/blog/tag/${tag.slug}`);
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              {tag.name}
+            </Tag>
           ))}
         </div>
       )}
