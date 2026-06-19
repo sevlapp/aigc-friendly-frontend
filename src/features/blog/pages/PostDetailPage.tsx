@@ -1,113 +1,128 @@
-import { useQuery, useMutation } from '@apollo/client';
-import { Card, Tag, Typography, Button, Form, Input } from 'antd';
-import { CalendarOutlined, FolderOutlined, SendOutlined } from '@ant-design/icons';
-import { useParams } from 'react-router';
+import { useState } from 'react';
+import { useQuery, useLazyQuery } from '@apollo/client';
+import { Card, Tag, Typography, Breadcrumb } from 'antd';
+import { CalendarOutlined, FolderOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { useParams, useNavigate } from 'react-router';
 
-import { GET_POST_BY_SLUG, CREATE_COMMENT } from '../../api/blog.queries';
-import type { PostView, CommentView } from '../../types/blog.types';
+import { GET_POST_BY_SLUG, GET_COMMENTS_BY_POST } from '../api/blog.queries';
+import { CommentList } from '../components/CommentList';
+import { CommentForm } from '../components/CommentForm';
+import type { PostView, CommentView } from '../types/blog.types';
 
 const { Title, Text, Paragraph } = Typography;
-const { TextArea } = Input;
-
-function CommentItem({ comment }: { comment: CommentView }) {
-  return (
-    <div style={{ padding: 16, borderBottom: '1px solid #f0f0f0' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-        <Text strong>{comment.authorName}</Text>
-        <Text type="secondary" style={{ fontSize: 12 }}>
-          {new Date(comment.createdAt).toLocaleString()}
-        </Text>
-      </div>
-      <Paragraph>{comment.content}</Paragraph>
-    </div>
-  );
-}
 
 export function PostDetailPage() {
   const { slug } = useParams<{ slug: string }>();
-  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const [replyToCommentId, setReplyToCommentId] = useState<number | undefined>();
+  const [loadComments, { data: commentsData }] = useLazyQuery(GET_COMMENTS_BY_POST);
+
   const { loading, error, data } = useQuery(GET_POST_BY_SLUG, {
     variables: { slug },
+    onCompleted: (postData) => {
+      const post = postData?.postBySlug;
+      if (post) {
+        loadComments({ variables: { postId: post.id } });
+      }
+    },
   });
 
-  const [createComment] = useMutation(CREATE_COMMENT);
-
   const post: PostView = data?.postBySlug;
-  const comments: CommentView[] = post?.comments || [];
+  const comments: CommentView[] = commentsData?.comments || [];
 
-  const handleSubmit = async () => {
-    try {
-      const values = form.getFieldsValue();
-      await createComment({
-        variables: {
-          input: {
-            postId: post.id,
-            authorName: values.authorName,
-            authorEmail: values.authorEmail,
-            content: values.content,
-          },
-        },
-      });
-      form.resetFields();
-    } catch (err) {
-      console.error('Failed to create comment:', err);
+  const handleBack = () => {
+    navigate('/blog');
+  };
+
+  const handleReply = (commentId: number) => {
+    setReplyToCommentId(commentId);
+  };
+
+  const handleCommentSuccess = () => {
+    setReplyToCommentId(undefined);
+    if (post) {
+      loadComments({ variables: { postId: post.id } });
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-  if (!post) return <div>文章不存在</div>;
+  if (loading) return <div style={{ textAlign: 'center', padding: '40px' }}>Loading...</div>;
+  if (error) return <div style={{ textAlign: 'center', padding: '40px', color: 'red' }}>Error: {error.message}</div>;
+  if (!post) return <div style={{ textAlign: 'center', padding: '40px' }}>文章不存在</div>;
 
   return (
     <div style={{ maxWidth: 800, margin: '0 auto', padding: '24px' }}>
+      <Breadcrumb style={{ marginBottom: 24 }}>
+        <Breadcrumb.Item onClick={handleBack}>
+          <ArrowLeftOutlined />
+          博客首页
+        </Breadcrumb.Item>
+        {post.category && (
+          <Breadcrumb.Item onClick={() => navigate(`/blog/category/${post.category.slug}`)}>
+            <FolderOutlined />
+            {post.category.name}
+          </Breadcrumb.Item>
+        )}
+        <Breadcrumb.Item>{post.title}</Breadcrumb.Item>
+      </Breadcrumb>
+
       <Title level={1}>{post.title}</Title>
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
         {post.category && (
-          <span className="flex items-center gap-2 text-gray-500">
+          <span 
+            className="flex items-center gap-2 text-gray-500"
+            onClick={() => navigate(`/blog/category/${post.category.slug}`)}
+            style={{ cursor: 'pointer', color: '#1890ff' }}
+          >
             <FolderOutlined />
             <Text>{post.category.name}</Text>
           </span>
         )}
         <span className="flex items-center gap-2 text-gray-500">
           <CalendarOutlined />
-          <Text>{new Date(post.createdAt).toLocaleDateString()}</Text>
+          <Text>{new Date(post.createdAt).toLocaleDateString('zh-CN')}</Text>
         </span>
       </div>
       {post.tags.length > 0 && (
         <div style={{ marginBottom: 24 }}>
           {post.tags.map((tag) => (
-            <Tag key={tag.id}>{tag.name}</Tag>
+            <Tag 
+              key={tag.id} 
+              color="blue"
+              onClick={() => navigate(`/blog/tag/${tag.slug}`)}
+              style={{ cursor: 'pointer' }}
+            >
+              {tag.name}
+            </Tag>
           ))}
         </div>
       )}
       <Card>
-        <Paragraph style={{ whiteSpace: 'pre-wrap' }}>{post.content}</Paragraph>
+        <Paragraph style={{ whiteSpace: 'pre-wrap', fontSize: 16, lineHeight: 1.8 }}>{post.content}</Paragraph>
       </Card>
 
       <div style={{ marginTop: 48 }}>
         <Title level={2}>评论 ({comments.length})</Title>
-        <Form form={form} layout="vertical" onFinish={handleSubmit}>
-          <Form.Item name="authorName" label="您的名字" rules={[{ required: true }]}>
-            <Input placeholder="请输入您的名字" />
-          </Form.Item>
-          <Form.Item name="authorEmail" label="邮箱" rules={[{ required: true, type: 'email' }]}>
-            <Input placeholder="请输入您的邮箱" />
-          </Form.Item>
-          <Form.Item name="content" label="评论内容" rules={[{ required: true }]}>
-            <TextArea rows={4} placeholder="请输入评论内容" />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" icon={<SendOutlined />}>
-              提交评论
-            </Button>
-          </Form.Item>
-        </Form>
+        
+        {replyToCommentId && (
+          <div style={{ marginBottom: 24, padding: 16, backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
+            <Text type="secondary">正在回复评论...</Text>
+            <CommentForm 
+              postId={post.id} 
+              parentId={replyToCommentId} 
+              onSuccess={handleCommentSuccess} 
+            />
+          </div>
+        )}
 
-        {comments.length > 0 && (
-          <div style={{ marginTop: 32 }}>
-            {comments.map((comment) => (
-              <CommentItem key={comment.id} comment={comment} />
-            ))}
+        <div style={{ marginBottom: 32 }}>
+          <CommentForm postId={post.id} onSuccess={handleCommentSuccess} />
+        </div>
+
+        {comments.length > 0 ? (
+          <CommentList comments={comments} onReply={handleReply} />
+        ) : (
+          <div style={{ textAlign: 'center', padding: '40px', backgroundColor: '#fafafa', borderRadius: '4px' }}>
+            <Text type="secondary">暂无评论，快来发表第一条评论吧！</Text>
           </div>
         )}
       </div>
