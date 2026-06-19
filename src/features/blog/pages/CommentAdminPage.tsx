@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table, Button, Popconfirm, Tag, Input, Select, Space, Card, Empty } from 'antd';
 import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SearchOutlined } from '@ant-design/icons';
 import { useQuery, useMutation } from '@apollo/client';
-import { GET_COMMENTS, APPROVE_COMMENT, REJECT_COMMENT, DELETE_COMMENT } from '@/features/blog/api/blog.queries';
+import { GET_COMMENTS, APPROVE_COMMENT, REJECT_COMMENT, DELETE_COMMENT } from '@/features/blog/infrastructure/blog.queries';
 import { CommentStatus } from '@/shared/types/blog.types';
 const { Search } = Input;
 const { Option } = Select;
