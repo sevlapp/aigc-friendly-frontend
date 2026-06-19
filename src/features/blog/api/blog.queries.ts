@@ -199,3 +199,51 @@ export const PUBLISH_POST = gql`
     }
   }
 `;
+
+export const CREATE_CATEGORY = gql`
+  ${CATEGORY_FRAGMENT}
+  mutation CreateCategory($input: CreateCategoryInput!) {
+    createCategory(input: $input) {
+      ...CategoryFields
+    }
+  }
+`;
+
+export const UPDATE_CATEGORY = gql`
+  ${CATEGORY_FRAGMENT}
+  mutation UpdateCategory($input: UpdateCategoryInput!) {
+    updateCategory(input: $input) {
+      ...CategoryFields
+    }
+  }
+`;
+
+export const DELETE_CATEGORY = gql`
+  mutation DeleteCategory($id: Int!) {
+    deleteCategory(id: $id)
+  }
+`;
+
+export const CREATE_TAG = gql`
+  ${TAG_FRAGMENT}
+  mutation CreateTag($input: CreateTagInput!) {
+    createTag(input: $input) {
+      ...TagFields
+    }
+  }
+`;
+
+export const UPDATE_TAG = gql`
+  ${TAG_FRAGMENT}
+  mutation UpdateTag($input: UpdateTagInput!) {
+    updateTag(input: $input) {
+      ...TagFields
+    }
+  }
+`;
+
+export const DELETE_TAG = gql`
+  mutation DeleteTag($id: Int!) {
+    deleteTag(id: $id)
+  }
+`;

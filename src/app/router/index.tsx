@@ -21,6 +21,9 @@ import { BlogHomePage } from '@/features/blog/pages/BlogHomePage';
 import { PostDetailPage } from '@/features/blog/pages/PostDetailPage';
 import { CategoryPage } from '@/features/blog/pages/CategoryPage';
 import { TagPage } from '@/features/blog/pages/TagPage';
+import { BlogAdminPage } from '@/features/blog/pages/BlogAdminPage';
+import { CategoryAdminPage } from '@/features/blog/pages/CategoryAdminPage';
+import { TagAdminPage } from '@/features/blog/pages/TagAdminPage';
 
 import { getAppEnv } from '@/shared/env';
 
@@ -115,6 +118,18 @@ const router = createBrowserRouter([
       {
         element: <PostDetailPage />,
         path: 'blog/:slug',
+      },
+      {
+        element: <BlogAdminPage />,
+        path: 'admin/blog',
+      },
+      {
+        element: <CategoryAdminPage />,
+        path: 'admin/categories',
+      },
+      {
+        element: <TagAdminPage />,
+        path: 'admin/tags',
       },
       {
         element: <Error404 />,
