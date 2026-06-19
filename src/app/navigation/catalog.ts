@@ -13,6 +13,14 @@ const STABLE_NAVIGATION_ITEMS: NavigationItem[] = [
     path: '/',
     tags: ['home', 'workbench', 'aigc', 'assistant', 'dashboard', '工作台', '助手'],
   },
+  {
+    description: '个人博客，记录技术心得和生活感悟。',
+    id: 'blog',
+    kind: 'stable',
+    label: 'Blog',
+    path: '/blog',
+    tags: ['blog', 'posts', 'articles', '文章', '博客'],
+  },
 ];
 
 const LAB_NAVIGATION_ITEMS: NavigationItem[] = [

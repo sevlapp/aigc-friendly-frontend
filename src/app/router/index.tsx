@@ -17,6 +17,9 @@ import { HomePage } from '@/pages/home';
 import { ProjectStructurePage } from '@/pages/project-structure';
 import { Error403, Error404, Error500, ErrorRouteCrash } from '@/features/error-feedback';
 
+import { BlogHomePage } from '@/features/blog/pages/BlogHomePage';
+import { PostDetailPage } from '@/features/blog/pages/PostDetailPage';
+
 import { getAppEnv } from '@/shared/env';
 
 import { canAccessGame2048Lab, Game2048LabPage } from '@/labs/game-2048';
@@ -94,6 +97,14 @@ const router = createBrowserRouter([
         element: <SandboxPlaygroundPage />,
         loader: sandboxPlaygroundLoader,
         path: 'sandbox/playground',
+      },
+      {
+        element: <BlogHomePage />,
+        path: 'blog',
+      },
+      {
+        element: <PostDetailPage />,
+        path: 'blog/:slug',
       },
       {
         element: <Error404 />,
