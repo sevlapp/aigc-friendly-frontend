@@ -247,3 +247,79 @@ export const DELETE_TAG = gql`
     deleteTag(id: $id)
   }
 `;
+
+export const GET_CONFIG = gql`
+  query Config {
+    config {
+      key
+      value
+      description
+    }
+  }
+`;
+
+export const UPDATE_CONFIG = gql`
+  mutation UpdateConfig($input: [UpdateConfigInput!]!) {
+    updateConfig(input: $input) {
+      key
+      value
+    }
+  }
+`;
+
+export const CREATE_LINK = gql`
+  mutation CreateLink($input: CreateLinkInput!) {
+    createLink(input: $input) {
+      id
+      name
+      url
+      description
+      avatar
+      sortOrder
+      isActive
+    }
+  }
+`;
+
+export const UPDATE_LINK = gql`
+  mutation UpdateLink($input: UpdateLinkInput!) {
+    updateLink(input: $input) {
+      id
+      name
+      url
+      description
+      avatar
+      sortOrder
+      isActive
+    }
+  }
+`;
+
+export const DELETE_LINK = gql`
+  mutation DeleteLink($id: Int!) {
+    deleteLink(id: $id)
+  }
+`;
+
+export const GET_STATS = gql`
+  query Stats {
+    stats {
+      totalPosts
+      totalComments
+      totalViews
+      totalLikes
+      publishedPosts
+      pendingComments
+    }
+  }
+`;
+
+export const GET_ARCHIVE_STATS = gql`
+  query ArchiveStats {
+    archiveStats {
+      year
+      month
+      count
+    }
+  }
+`;

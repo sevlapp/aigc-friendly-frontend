@@ -24,6 +24,9 @@ import { TagPage } from '@/features/blog/pages/TagPage';
 import { BlogAdminPage } from '@/features/blog/pages/BlogAdminPage';
 import { CategoryAdminPage } from '@/features/blog/pages/CategoryAdminPage';
 import { TagAdminPage } from '@/features/blog/pages/TagAdminPage';
+import { ConfigAdminPage } from '@/features/blog/pages/ConfigAdminPage';
+import { LinkAdminPage } from '@/features/blog/pages/LinkAdminPage';
+import { BlogStatsPage } from '@/features/blog/pages/BlogStatsPage';
 
 import { getAppEnv } from '@/shared/env';
 
@@ -130,6 +133,18 @@ const router = createBrowserRouter([
       {
         element: <TagAdminPage />,
         path: 'admin/tags',
+      },
+      {
+        element: <ConfigAdminPage />,
+        path: 'admin/config',
+      },
+      {
+        element: <LinkAdminPage />,
+        path: 'admin/links',
+      },
+      {
+        element: <BlogStatsPage />,
+        path: 'admin/stats',
       },
       {
         element: <Error404 />,
