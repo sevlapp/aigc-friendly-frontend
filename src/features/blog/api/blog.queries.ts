@@ -323,3 +323,37 @@ export const GET_ARCHIVE_STATS = gql`
     }
   }
 `;
+
+export const GET_COMMENTS = gql`
+  query Comments($options: CommentQueryOptions) {
+    comments(options: $options) {
+      id
+      postId
+      postTitle
+      authorName
+      authorEmail
+      authorAvatar
+      content
+      status
+      createdAt
+    }
+  }
+`;
+
+export const APPROVE_COMMENT = gql`
+  mutation ApproveComment($id: Int!) {
+    approveComment(id: $id)
+  }
+`;
+
+export const REJECT_COMMENT = gql`
+  mutation RejectComment($id: Int!) {
+    rejectComment(id: $id)
+  }
+`;
+
+export const DELETE_COMMENT = gql`
+  mutation DeleteComment($id: Int!) {
+    deleteComment(id: $id)
+  }
+`;
